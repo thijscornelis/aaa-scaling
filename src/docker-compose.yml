@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  jobs.webapi:
+    image: ${DOCKER_REGISTRY-}jobswebapi
+    build:
+      context: .
+      dockerfile: Jobs.WebApi/Dockerfile
+  infra.sql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+     - "ACCEPT_EULA=Y"     
+     - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+    volumes:
+     - sql_volume:/var/opt/mssql
+    ports:
+     - 1433:1433   
+volumes:
+  sql_volume:
