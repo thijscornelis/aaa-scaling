@@ -23,7 +23,7 @@ public record CreateJob(JobId JobId) : Command<CreateJob.Result>
             JobStatus = jobStatus;
         }
 
-        public JobId? JobId { get; init; }
+        public JobId JobId { get; init; }
         public JobStatus? JobStatus { get; init; }
     }
 

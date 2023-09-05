@@ -8,7 +8,7 @@ public abstract class EntityBase
         ModifiedOn = CreatedOn;
     }
 
-    public DateTimeOffset CreatedOn { get; }
+    public DateTimeOffset CreatedOn { get; private set; }
     public DateTimeOffset ModifiedOn { get; private set; }
     public bool IsDeleted { get; private set; }
 

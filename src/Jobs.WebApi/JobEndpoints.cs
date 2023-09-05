@@ -14,40 +14,52 @@ public static class JobEndpoints
     {
         builder.MapPost("jobs", Create)
             .WithOpenApi()
-            .WithName("Create a job")
-            .WithGroupName("Jobs");
+            .WithName("Create")
+            .WithDisplayName("Create")
+            .WithDescription("Create a job")
+            .WithTags("Jobs");
 
         builder.MapPost("jobs/{id}/execute", Execute)
             .WithOpenApi()
-            .WithName("Execute a job by id")
-            .WithGroupName("Jobs");
+            .WithName("Execute")
+            .WithDisplayName("Execute")
+            .WithDescription("Execute a job by id")
+            .WithTags("Jobs");
 
         builder.MapPost("jobs/create-and-execute", CreateAndExecute)
             .WithOpenApi()
-            .WithName("Create an execute a job")
-            .WithGroupName("Jobs");
+            .WithName("CreateAndExecute")
+            .WithDisplayName("CreateAndExecute")
+            .WithDescription("Create an execute a job")
+            .WithTags("Jobs");
 
         builder.MapGet("jobs", GetAll)
             .WithOpenApi()
-            .WithName("Get all jobs")
-            .WithGroupName("Jobs");
+            .WithName("GetAll")
+            .WithDisplayName("GetAll")
+            .WithDescription("Get all jobs")
+            .WithTags("Jobs");
 
         builder.MapGet("jobs/{id}", GetById)
             .WithOpenApi()
-            .WithName("Get a job by id")
-            .WithGroupName("Jobs");
-
-        builder.MapDelete("jobs/{id}", DeleteById)
+            .WithName("GetById")
+            .WithDisplayName("GetById")
+            .WithDescription("Get a job by id")
+            .WithTags("Jobs");
+        
+        builder.MapDelete("jobs/{id}", Delete)
             .WithOpenApi()
-            .WithName("Delete a job by id")
-            .WithGroupName("Jobs");
-
+            .WithName("Delete")
+            .WithDisplayName("Delete")
+            .WithDescription("Delete a job by id")
+            .WithTags("Jobs");
+        
         return builder;
     }
 
-    private static async Task<DeleteJob.Result> DeleteById([FromRoute] JobId id, [FromServices] ICommandExecutor executor, CancellationToken cancellationToken)
+    private static Task<DeleteJob.Result> Delete([FromRoute] JobId id, [FromServices] ICommandExecutor executor, CancellationToken cancellationToken)
     {
-        return await executor.ExecuteAsync(new DeleteJob(id), cancellationToken);
+        return executor.ExecuteAsync(new DeleteJob(id), cancellationToken);
     }
 
     private static async Task<GetJob.Result> GetById([FromRoute] JobId id, [FromServices] IQueryExecutor executor, CancellationToken cancellationToken)
@@ -74,7 +86,7 @@ public static class JobEndpoints
         var createResult = await executor.ExecuteAsync(new CreateJob(JobId.New()), cancellationToken);
         if (createResult.HasFailed) return new CreateAndExecuteResult(createResult);
 
-        var executeResult = await executor.ExecuteAsync(new ExecuteJob(JobId.New()), cancellationToken);
+        var executeResult = await executor.ExecuteAsync(new ExecuteJob(createResult.JobId), cancellationToken);
         return new CreateAndExecuteResult(createResult, executeResult);
     }
 }

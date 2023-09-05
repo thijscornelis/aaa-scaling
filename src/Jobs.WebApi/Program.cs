@@ -1,19 +1,20 @@
-using Foundation.Core.CQRS.Design;
 using Foundation.Core.DependencyInjection;
 using Jobs.Application.Commands;
-using Jobs.Application.Queries;
 using Jobs.Domain.Abstractions;
-using Jobs.Domain.Entities.Identifiers;
 using Jobs.Infrastructure.EntityFramework;
 using Jobs.Infrastructure.EntityFramework.Repositories;
-using Microsoft.AspNetCore.Mvc;
+using Jobs.WebApi;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddEndpointsApiExplorer()
-    .AddSwaggerGen(x => x.CustomSchemaIds(type => type.ToString().Replace('+', '-')))
+    .AddSwaggerGen(x =>
+    {
+        x.OrderActionsBy(a => a.HttpMethod);
+        x.CustomSchemaIds(type => type.ToString().Replace('+', '-'));
+    })
     .WithCommandAndQueryResponsibilitySegregation(typeof(CreateJob).Assembly)
     .AddTransient<IJobRepository, JobRepository>()
     .WithEntityFramework(x =>
@@ -28,11 +29,12 @@ builder.Services
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
-    app.UseSwagger()
-        .UseSwaggerUI();
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.UseHttpsRedirection();
-
-
+app.MapJobEndpoints();
 
 app.Run();
