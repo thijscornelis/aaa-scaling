@@ -1,7 +1,7 @@
 ﻿using Foundation.Core.Abstractions;
 using MediatR;
 
-namespace Foundation.Core.Mediator;
+namespace Foundation.Core.CQRS;
 
 public abstract class QueryHandler<TQuery, TQueryResult> : IRequestHandler<TQuery, TQueryResult>
     where TQuery : Query<TQueryResult>

@@ -1,4 +1,5 @@
 ﻿using Foundation.Core.Abstractions;
+using Foundation.Core.CQRS;
 using Foundation.Core.Mediator;
 using Jobs.Domain.Abstractions;
 using Jobs.Domain.Entities;
@@ -41,7 +42,7 @@ public record CreateJob(JobId JobId) : Command<CreateJob.Result>
         public override async Task<Result> Handle(CreateJob request, CancellationToken cancellationToken)
         {
             var job = new Job(request.JobId);
-            await _repository.AddAsync(job);
+            await _repository.AddAsync(job, cancellationToken);
             return new Result(job.Id, job.Status);
         }
     }

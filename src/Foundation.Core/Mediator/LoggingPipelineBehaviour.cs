@@ -14,7 +14,8 @@ internal class LoggingPipelineBehaviour<TRequest, TResponse> : IPipelineBehavior
     }
 
     /// <inheritdoc />
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken)
     {
         _logger.LogTrace("Starting {0}", typeof(TRequest).Name);
         var response = await next();

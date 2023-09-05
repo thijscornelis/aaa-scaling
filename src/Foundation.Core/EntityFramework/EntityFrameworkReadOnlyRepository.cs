@@ -11,7 +11,7 @@ public class EntityFrameworkReadOnlyRepository<TEntity, TKey> : IReadOnlyReposit
     protected readonly DbSet<TEntity> Set;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="EntityFrameworkReadOnlyRepository{TEntity,TKey}"/> class.
+    ///     Initializes a new instance of the <see cref="EntityFrameworkReadOnlyRepository{TEntity,TKey}" /> class.
     /// </summary>
     /// <param name="context">The context.</param>
     public EntityFrameworkReadOnlyRepository(DbContext context)
@@ -21,14 +21,26 @@ public class EntityFrameworkReadOnlyRepository<TEntity, TKey> : IReadOnlyReposit
     }
 
     /// <inheritdoc />
-    public async Task<TEntity?> FindById(TKey id) => await Set.Where(x => !x.IsDeleted).SingleOrDefaultAsync(x => x.Id.Equals(id));
+    public async Task<TEntity?> FindById(TKey id, CancellationToken cancellationToken)
+    {
+        return await Set.Where(x => !x.IsDeleted).SingleOrDefaultAsync(x => x.Id.Equals(id), cancellationToken);
+    }
 
     /// <inheritdoc />
-    public async Task<TEntity> GetById(TKey id) => await Set.Where(x => !x.IsDeleted).SingleAsync(x => x.Id.Equals(id));
+    public async Task<TEntity> GetById(TKey id, CancellationToken cancellationToken)
+    {
+        return await Set.Where(x => !x.IsDeleted).SingleAsync(x => x.Id.Equals(id), cancellationToken);
+    }
 
     /// <inheritdoc />
-    public IQueryable<TEntity> GetQueryable() => Set.Where(x => !x.IsDeleted);
+    public IQueryable<TEntity> GetQueryable()
+    {
+        return Set.Where(x => !x.IsDeleted);
+    }
 
     /// <inheritdoc />
-    public IQueryable<TEntity> GetQueryableIncludingDeleted() => Set;
+    public IQueryable<TEntity> GetQueryableIncludingDeleted()
+    {
+        return Set;
+    }
 }

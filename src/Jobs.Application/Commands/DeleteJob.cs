@@ -1,4 +1,5 @@
 ﻿using Foundation.Core.Abstractions;
+using Foundation.Core.CQRS;
 using Foundation.Core.Mediator;
 using Jobs.Domain.Abstractions;
 using Jobs.Domain.Entities.Identifiers;
@@ -21,9 +22,9 @@ public record DeleteJob(JobId Id) : Command<DeleteJob.Result>
         /// <inheritdoc />
         public override async Task<Result> Handle(DeleteJob request, CancellationToken cancellationToken)
         {
-            var job = await _repository.GetById(request.Id);
-            await _repository.DeleteAsync(job);
-            return new();
+            var job = await _repository.GetById(request.Id, cancellationToken);
+            await _repository.DeleteAsync(job, cancellationToken);
+            return new Result();
         }
     }
 }

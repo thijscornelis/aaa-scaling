@@ -8,6 +8,7 @@ public class EntityFrameworkDbContext : DbContext
     public EntityFrameworkDbContext(DbContextOptions options) : base(options)
     {
     }
+
     /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

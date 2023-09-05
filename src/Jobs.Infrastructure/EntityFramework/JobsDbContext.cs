@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Jobs.Infrastructure.EntityFramework;
 
-internal class JobsDbContext : EntityFrameworkDbContext
+public class JobsDbContext : EntityFrameworkDbContext
 {
     /// <inheritdoc />
     public JobsDbContext(DbContextOptions options) : base(options)

@@ -1,7 +1,7 @@
 ﻿using Foundation.Core.Abstractions;
 using MediatR;
 
-namespace Foundation.Core.Mediator;
+namespace Foundation.Core.CQRS;
 
 public abstract class CommandHandler<TCommand, TCommandResult> : IRequestHandler<TCommand, TCommandResult>
     where TCommand : Command<TCommandResult>

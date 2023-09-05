@@ -6,5 +6,8 @@ namespace Jobs.Application.Contracts;
 
 public record JobDto(JobId Id, JobStatus Status, DateTimeOffset CreatedOn, DateTimeOffset ModifiedOn)
 {
-    public static explicit operator JobDto(Job job) => new (job.Id, job.Status, job.CreatedOn, job.ModifiedOn);
+    public static explicit operator JobDto(Job job)
+    {
+        return new JobDto(job.Id, job.Status, job.CreatedOn, job.ModifiedOn);
+    }
 }

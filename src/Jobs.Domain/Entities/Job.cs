@@ -17,4 +17,18 @@ public class Job : EntityBase<JobId>
     }
 
     public JobStatus Status { get; private set; } = JobStatus.Created;
+
+    public void SetCompleted()
+    {
+        Status = JobStatus.Completed;
+    }
+
+    public async Task<double> Execute(CancellationToken cancellationToken)
+    {
+        var random = new Random();
+        var seconds = random.Next(3, 30);
+        for (var i = 0; i < seconds; i++) await Task.Delay(1000, cancellationToken);
+        SetCompleted();
+        return seconds;
+    }
 }

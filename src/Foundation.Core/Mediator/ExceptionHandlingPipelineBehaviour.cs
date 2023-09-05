@@ -16,7 +16,8 @@ internal class ExceptionHandlingPipelineBehaviour<TRequest, TResponse> : IPipeli
     }
 
     /// <inheritdoc />
-    public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken)
     {
         try
         {
@@ -24,7 +25,8 @@ internal class ExceptionHandlingPipelineBehaviour<TRequest, TResponse> : IPipeli
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Caught exception of type {0} in request pipeline", e.GetBaseException().GetType().Name);
+            _logger.LogError(e, "Caught exception of type {0} in request pipeline",
+                e.GetBaseException().GetType().Name);
             var response = new TResponse();
             response.SetException(e);
             return Task.FromResult(response);

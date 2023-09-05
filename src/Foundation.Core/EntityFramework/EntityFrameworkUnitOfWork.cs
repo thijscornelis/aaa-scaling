@@ -8,6 +8,7 @@ public class EntityFrameworkUnitOfWork : IUnitOfWork
 {
     private readonly DbContext _context;
     private IDbContextTransaction? _transaction;
+
     public EntityFrameworkUnitOfWork(DbContext context)
     {
         _context = context;
@@ -28,9 +29,7 @@ public class EntityFrameworkUnitOfWork : IUnitOfWork
                      .Entries<EntityBase>()
                      .Where(x => x.State == EntityState.Modified || x.State == EntityState.Added)
                      .Select(x => x.Entity))
-        {
             entity.SetModified();
-        }
 
         await _transaction.CommitAsync(cancellationToken);
     }
@@ -38,10 +37,13 @@ public class EntityFrameworkUnitOfWork : IUnitOfWork
     /// <inheritdoc />
     public async Task RollbackAsync(CancellationToken cancellationToken)
     {
-        if(_transaction == null) return;
+        if (_transaction == null) return;
         await _transaction.RollbackAsync(cancellationToken);
     }
 
     /// <inheritdoc />
-    public async Task PersistAsync(CancellationToken cancellationToken) => await _context.SaveChangesAsync(cancellationToken);
+    public async Task PersistAsync(CancellationToken cancellationToken)
+    {
+        await _context.SaveChangesAsync(cancellationToken);
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using Foundation.Core.Abstractions;
+using Foundation.Core.CQRS;
 using Foundation.Core.Mediator;
 using Jobs.Application.Contracts;
 using Jobs.Domain.Entities;
@@ -36,7 +37,7 @@ public record GetJob(JobId Id) : Query<GetJob.Result>
         /// <inheritdoc />
         public override async Task<Result> Handle(GetJob request, CancellationToken cancellationToken)
         {
-            var job = await _repository.GetById(request.Id);
+            var job = await _repository.GetById(request.Id, cancellationToken);
             return new Result((JobDto)job);
         }
     }

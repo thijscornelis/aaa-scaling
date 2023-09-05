@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Jobs.Infrastructure.EntityFramework.Repositories;
 
-internal class JobRepository : EntityFrameworkRepository<Job, JobId>, IJobRepository
+public class JobRepository : EntityFrameworkRepository<Job, JobId>, IJobRepository
 {
     /// <inheritdoc />
     public JobRepository(DbContext context) : base(context)
