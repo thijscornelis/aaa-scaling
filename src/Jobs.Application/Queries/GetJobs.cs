@@ -38,7 +38,7 @@ public record GetJobs : Query<GetJobs.Result>
         /// <inheritdoc />
         public override Task<Result> Handle(GetJobs request, CancellationToken cancellationToken)
         {
-            var jobs = _repository.GetQueryable().ToList().Select(x => (JobDto)x).ToArray();
+            var jobs = _repository.GetQueryable().ToList().Select(job => new JobDto(job.Id, job.Status, job.CreatedOn, job.ModifiedOn)).ToArray();
             return Task.FromResult(new Result(jobs));
         }
     }

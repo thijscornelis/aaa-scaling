@@ -1,6 +1,5 @@
 ﻿using Foundation.Core.Abstractions;
 using Foundation.Core.CQRS;
-using Foundation.Core.Mediator;
 using Jobs.Domain.Abstractions;
 using Jobs.Domain.Entities;
 using Jobs.Domain.Entities.Identifiers;
@@ -15,7 +14,6 @@ public record CreateJob(JobId JobId) : Command<CreateJob.Result>
         /// <inheritdoc />
         public Result()
         {
-            JobId = JobId.Empty;
         }
 
         /// <inheritdoc />
@@ -25,7 +23,7 @@ public record CreateJob(JobId JobId) : Command<CreateJob.Result>
             JobStatus = jobStatus;
         }
 
-        public JobId JobId { get; init; }
+        public JobId? JobId { get; init; }
         public JobStatus? JobStatus { get; init; }
     }
 

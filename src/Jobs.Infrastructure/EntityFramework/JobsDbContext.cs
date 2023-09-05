@@ -4,13 +4,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Jobs.Infrastructure.EntityFramework;
 
-public class JobsDbContext : EntityFrameworkDbContext
+public class JobsDbContext : DbContext
 {
     /// <inheritdoc />
     public JobsDbContext(DbContextOptions options) : base(options)
     {
     }
-
+    
+    /// <inheritdoc />
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+        base.OnModelCreating(modelBuilder);
+    }
+    
     /// <inheritdoc />
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {

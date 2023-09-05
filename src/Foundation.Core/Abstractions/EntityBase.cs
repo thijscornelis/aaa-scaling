@@ -41,7 +41,3 @@ public abstract class EntityBase<TKey> : EntityBase
 
     public TKey Id { get; private set; }
 }
-
-public abstract record ValueObject
-{
-}

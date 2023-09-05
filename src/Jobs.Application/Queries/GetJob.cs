@@ -38,7 +38,7 @@ public record GetJob(JobId Id) : Query<GetJob.Result>
         public override async Task<Result> Handle(GetJob request, CancellationToken cancellationToken)
         {
             var job = await _repository.GetById(request.Id, cancellationToken);
-            return new Result((JobDto)job);
+            return new Result(new JobDto(job.Id, job.Status, job.CreatedOn, job.ModifiedOn));
         }
     }
 }

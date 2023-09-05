@@ -7,7 +7,7 @@ public abstract record ExecutionResult
     [JsonIgnore] public Exception? Exception { get; private set; }
 
     public string? ExceptionMessage => Exception?.GetBaseException().Message;
-
+    public bool HasFailed => Exception != null; 
     public TimeSpan ElapsedTime { get; private set; }
 
     internal void SetException(Exception exception)
