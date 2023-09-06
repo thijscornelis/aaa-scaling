@@ -20,6 +20,7 @@ public static class DependencyInjectionExtensions
         return services;
     }
 
+
     public static IServiceCollection WithCommandAndQueryResponsibilitySegregation(this IServiceCollection services,
         params Assembly[] assemblies)
     {

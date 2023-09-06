@@ -11,7 +11,6 @@ public static class UserEndpoints
     {
         builder.MapPost("users", Create)
             .WithOpenApi()
-            .WithName("Create")
             .WithDisplayName("Create")
             .WithDescription("Create a user")
             .WithTags("Users");
