@@ -7,7 +7,7 @@ using Jobs.Domain.ValueObjects;
 
 namespace Jobs.Application.Commands;
 
-public record CreateJob(JobId JobId) : Command<CreateJob.Result>
+public record CreateJob(JobId JobId, UserId UserId) : Command<CreateJob.Result>
 {
     public record Result : ExecutionResult
     {
@@ -29,18 +29,21 @@ public record CreateJob(JobId JobId) : Command<CreateJob.Result>
 
     public class Handler : CommandHandler<CreateJob, Result>
     {
-        private readonly IJobRepository _repository;
+        private readonly IJobRepository _jobRepository;
+        private readonly IUserRepository _userRepository;
 
-        public Handler(IJobRepository repository)
+        public Handler(IJobRepository jobRepository, IUserRepository userRepository)
         {
-            _repository = repository;
+            _jobRepository = jobRepository;
+            _userRepository = userRepository;
         }
 
         /// <inheritdoc />
         public override async Task<Result> Handle(CreateJob request, CancellationToken cancellationToken)
         {
-            var job = new Job(request.JobId);
-            await _repository.AddAsync(job, cancellationToken);
+            var user = await _userRepository.GetById(request.UserId, cancellationToken);
+            var job = new Job(request.JobId, user);
+            await _jobRepository.AddAsync(job, cancellationToken);
             return new Result(job.Id, job.Status);
         }
     }

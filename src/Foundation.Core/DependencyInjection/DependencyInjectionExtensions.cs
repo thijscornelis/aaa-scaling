@@ -1,11 +1,9 @@
 ﻿using System.Reflection;
-using System.Text.Json.Serialization;
 using Foundation.Core.Abstractions;
 using Foundation.Core.CQRS;
 using Foundation.Core.CQRS.Design;
 using Foundation.Core.EntityFramework;
 using Foundation.Core.Mediator;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Foundation.Core.DependencyInjection;

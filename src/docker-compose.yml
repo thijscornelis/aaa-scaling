@@ -1,11 +1,16 @@
 version: '3.4'
-
+name: scaling-monolith
 services:
   jobs.webapi:
     image: ${DOCKER_REGISTRY-}jobswebapi
     build:
       context: .
       dockerfile: Jobs.WebApi/Dockerfile
+    mem_limit: "128m"
+    mem_reservation: "64m"
+    cpus: 0.2    
+    depends_on:
+      - infra.sql
   infra.sql:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:

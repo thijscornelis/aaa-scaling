@@ -11,6 +11,7 @@ internal class JobEntityTypeConfiguration : IEntityTypeConfiguration<Job>
     {
         builder.ToTable("Jobs");
         builder.HasKey(x => x.Id);
+        builder.HasOne(x => x.User).WithMany(x => x.Jobs);
         builder.OwnsOne(x => x.Status);
     }
 }

@@ -17,6 +17,7 @@ builder.Services
     })
     .WithCommandAndQueryResponsibilitySegregation(typeof(CreateJob).Assembly)
     .AddTransient<IJobRepository, JobRepository>()
+    .AddTransient<IUserRepository, UserRepository>()
     .WithEntityFramework(x =>
     {
         x.AddDbContext<DbContext, JobsDbContext>((sp, o) =>
@@ -36,5 +37,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.MapJobEndpoints();
+app.MapUserEndpoints();
 
 app.Run();

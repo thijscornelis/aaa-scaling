@@ -12,11 +12,21 @@ public class Job : EntityBase<JobId>
     }
 
     /// <inheritdoc />
-    public Job(JobId id) : base(id)
+    public Job(JobId id, User user) : base(id)
     {
+        ArgumentNullException.ThrowIfNull(user);
+        SetUser(user);
     }
 
+    public UserId UserId { get; private set; }
+    public virtual User User { get; private set; }
     public JobStatus Status { get; private set; } = JobStatus.Created;
+
+    public void SetUser(User user)
+    {
+        User = user;
+        UserId = user.Id;
+    }
 
     public void SetCompleted()
     {

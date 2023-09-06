@@ -17,11 +17,11 @@ export const options = {
   ]
 };
 
-const API_BASE_URL = 'https://scaling.simplewebapp';
+const API_BASE_URL = 'https://jobs.webapi/jobs/create-and-execute';
 
 export default () => {
    http.batch([
-    ['GET', `${API_BASE_URL}`]
+    ['POST', `${API_BASE_URL}`]
    ]);
   sleep(1);
 }

@@ -1,6 +1,5 @@
 ﻿using Foundation.Core.Abstractions;
 using Foundation.Core.CQRS;
-using Foundation.Core.Mediator;
 using Jobs.Domain.Abstractions;
 using Jobs.Domain.Entities.Identifiers;
 

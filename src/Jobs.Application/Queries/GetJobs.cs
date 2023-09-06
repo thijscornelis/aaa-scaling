@@ -1,6 +1,5 @@
 ﻿using Foundation.Core.Abstractions;
 using Foundation.Core.CQRS;
-using Foundation.Core.Mediator;
 using Jobs.Application.Contracts;
 using Jobs.Domain.Entities;
 using Jobs.Domain.Entities.Identifiers;
@@ -38,7 +37,8 @@ public record GetJobs : Query<GetJobs.Result>
         /// <inheritdoc />
         public override Task<Result> Handle(GetJobs request, CancellationToken cancellationToken)
         {
-            var jobs = _repository.GetQueryable().ToList().Select(job => new JobDto(job.Id, job.Status, job.CreatedOn, job.ModifiedOn)).ToArray();
+            var jobs = _repository.GetQueryable().ToList()
+                .Select(job => new JobDto(job.Id, job.Status, job.CreatedOn, job.ModifiedOn)).ToArray();
             return Task.FromResult(new Result(jobs));
         }
     }

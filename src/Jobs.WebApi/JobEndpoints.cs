@@ -8,6 +8,8 @@ namespace Jobs.WebApi;
 
 public record CreateAndExecuteResult(CreateJob.Result? CreateResult, ExecuteJob.Result? ExecuteResult = null);
 
+public record CreateJobModel(UserId UserId);
+
 public static class JobEndpoints
 {
     public static IEndpointRouteBuilder MapJobEndpoints(this IEndpointRouteBuilder builder)
@@ -46,44 +48,53 @@ public static class JobEndpoints
             .WithDisplayName("GetById")
             .WithDescription("Get a job by id")
             .WithTags("Jobs");
-        
+
         builder.MapDelete("jobs/{id}", Delete)
             .WithOpenApi()
             .WithName("Delete")
             .WithDisplayName("Delete")
             .WithDescription("Delete a job by id")
             .WithTags("Jobs");
-        
+
         return builder;
     }
 
-    private static Task<DeleteJob.Result> Delete([FromRoute] JobId id, [FromServices] ICommandExecutor executor, CancellationToken cancellationToken)
+    private static Task<DeleteJob.Result> Delete([FromRoute] JobId id, [FromServices] ICommandExecutor executor,
+        CancellationToken cancellationToken)
     {
         return executor.ExecuteAsync(new DeleteJob(id), cancellationToken);
     }
 
-    private static async Task<GetJob.Result> GetById([FromRoute] JobId id, [FromServices] IQueryExecutor executor, CancellationToken cancellationToken)
+    private static async Task<GetJob.Result> GetById([FromRoute] JobId id, [FromServices] IQueryExecutor executor,
+        CancellationToken cancellationToken)
     {
         return await executor.ExecuteAsync(new GetJob(id), cancellationToken);
     }
 
-    private static async Task<GetJobs.Result> GetAll([FromServices] IQueryExecutor executor, CancellationToken cancellationToken)
+    private static async Task<GetJobs.Result> GetAll([FromServices] IQueryExecutor executor,
+        CancellationToken cancellationToken)
     {
         return await executor.ExecuteAsync(new GetJobs(), cancellationToken);
     }
 
-    private static async Task<CreateJob.Result> Create([FromServices] ICommandExecutor executor, CancellationToken cancellationToken)
+    private static async Task<CreateJob.Result> Create([FromBody] CreateJobModel model,
+        [FromServices] ICommandExecutor executor,
+        CancellationToken cancellationToken)
     {
-        return await executor.ExecuteAsync(new CreateJob(JobId.New()), cancellationToken);
+        return await executor.ExecuteAsync(new CreateJob(JobId.New(), model.UserId), cancellationToken);
     }
 
-    private static async Task<ExecuteJob.Result> Execute([FromRoute] JobId id, [FromServices] ICommandExecutor executor, CancellationToken cancellationToken)
+    private static async Task<ExecuteJob.Result> Execute([FromRoute] JobId id, [FromServices] ICommandExecutor executor,
+        CancellationToken cancellationToken)
     {
         return await executor.ExecuteAsync(new ExecuteJob(id), cancellationToken);
     }
-    private static async Task<CreateAndExecuteResult> CreateAndExecute([FromServices] ICommandExecutor executor, CancellationToken cancellationToken)
+
+    private static async Task<CreateAndExecuteResult> CreateAndExecute([FromBody] CreateJobModel model,
+        [FromServices] ICommandExecutor executor,
+        CancellationToken cancellationToken)
     {
-        var createResult = await executor.ExecuteAsync(new CreateJob(JobId.New()), cancellationToken);
+        var createResult = await executor.ExecuteAsync(new CreateJob(JobId.New(), model.UserId), cancellationToken);
         if (createResult.HasFailed) return new CreateAndExecuteResult(createResult);
 
         var executeResult = await executor.ExecuteAsync(new ExecuteJob(createResult.JobId), cancellationToken);

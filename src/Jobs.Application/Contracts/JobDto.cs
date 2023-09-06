@@ -1,5 +1,4 @@
-﻿using Jobs.Domain.Entities;
-using Jobs.Domain.Entities.Identifiers;
+﻿using Jobs.Domain.Entities.Identifiers;
 using Jobs.Domain.ValueObjects;
 
 namespace Jobs.Application.Contracts;
