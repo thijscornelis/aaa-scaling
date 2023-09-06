@@ -16,12 +16,12 @@ internal class ExceptionHandlingPipelineBehaviour<TRequest, TResponse> : IPipeli
     }
 
     /// <inheritdoc />
-    public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
         try
         {
-            return next();
+            return await next();
         }
         catch (Exception e)
         {
@@ -29,7 +29,7 @@ internal class ExceptionHandlingPipelineBehaviour<TRequest, TResponse> : IPipeli
                 e.GetBaseException().GetType().Name);
             var response = new TResponse();
             response.SetException(e);
-            return Task.FromResult(response);
+            return response;
         }
     }
 }
