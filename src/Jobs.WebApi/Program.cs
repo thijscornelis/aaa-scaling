@@ -1,17 +1,11 @@
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using Foundation.Core.DependencyInjection;
-using Foundation.Core.TypedIdentifiers;
 using Jobs.Application.Commands;
 using Jobs.Domain.Abstractions;
 using Jobs.Domain.Entities.Identifiers;
 using Jobs.Infrastructure.EntityFramework;
 using Jobs.Infrastructure.EntityFramework.Repositories;
-using Jobs.WebApi;
-using Microsoft.AspNetCore.Mvc;
+using Jobs.WebApi.Endpoints;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,4 +1,5 @@
-﻿using Foundation.Core.Abstractions;
+﻿using System.Diagnostics.CodeAnalysis;
+using Foundation.Core.Abstractions;
 using Jobs.Domain.Entities.Identifiers;
 using Jobs.Domain.ValueObjects;
 
@@ -7,30 +8,43 @@ namespace Jobs.Domain.Entities;
 public class Job : EntityBase<JobId>
 {
     /// <inheritdoc />
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     protected internal Job()
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     {
+        SetCreated();
     }
 
     /// <inheritdoc />
     public Job(JobId id, User user) : base(id)
     {
-        ArgumentNullException.ThrowIfNull(user);
+        SetCreated();
         SetUser(user);
     }
 
     public UserId UserId { get; private set; }
     public virtual User User { get; private set; }
-    public JobStatus Status { get; private set; } = JobStatus.Created;
+    public JobStatus Status { get; private set; }
 
+    [MemberNotNull(nameof(Job.User))]
     public void SetUser(User user)
     {
+        ArgumentNullException.ThrowIfNull(user);
         User = user;
         UserId = user.Id;
     }
 
+    [MemberNotNull(nameof(Job.Status))]
     public void SetCompleted()
     {
         Status = JobStatus.Completed;
+    }
+
+
+    [MemberNotNull(nameof(Job.Status))]
+    private void SetCreated()
+    {
+        Status = JobStatus.Created;
     }
 
     public async Task<double> Execute(CancellationToken cancellationToken)

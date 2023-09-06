@@ -1,5 +1,3 @@
 ﻿namespace Foundation.Core.Abstractions;
 
-public abstract record ValueObject
-{
-}
+public abstract record ValueObject;

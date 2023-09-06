@@ -3,6 +3,4 @@
 namespace Foundation.Core.Abstractions;
 
 public abstract record Query<TQueryResult> : IRequest<TQueryResult>
-    where TQueryResult : ExecutionResult
-{
-}
+    where TQueryResult : ExecutionResult;

@@ -2,13 +2,10 @@
 using Jobs.Application.Commands;
 using Jobs.Application.Queries;
 using Jobs.Domain.Entities.Identifiers;
+using Jobs.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Jobs.WebApi;
-
-public record CreateAndExecuteResult(CreateJob.Result? CreateResult, ExecuteJob.Result? ExecuteResult = null);
-
-public record CreateJobModel(UserId UserId);
+namespace Jobs.WebApi.Endpoints;
 
 public static class JobEndpoints
 {

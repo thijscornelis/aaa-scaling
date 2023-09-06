@@ -1,9 +1,10 @@
 ﻿using Foundation.Core.CQRS.Design;
 using Jobs.Application.Commands;
 using Jobs.Domain.Entities.Identifiers;
+using Jobs.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Jobs.WebApi;
+namespace Jobs.WebApi.Endpoints;
 
 public static class UserEndpoints
 {
@@ -24,5 +25,3 @@ public static class UserEndpoints
             cancellationToken);
     }
 }
-
-public record CreateUserModel(string Firstname, string Lastname);
