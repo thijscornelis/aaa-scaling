@@ -6,9 +6,8 @@ services:
     build:
       context: .
       dockerfile: Jobs.WebApi/Dockerfile
-    mem_limit: "128m"
-    mem_reservation: "64m"
-    cpus: 0.2    
+    mem_limit: "64m"
+    mem_reservation: "32m"    
     depends_on:
       - infra.sql
   infra.sql:

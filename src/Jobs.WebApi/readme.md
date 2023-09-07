@@ -1,3 +1,7 @@
-dotnet ef migrations add "AddJobEntity" -s Jobs.WebApi\Jobs.WebApi.csproj -p
-Jobs.Infrastructure\Jobs.Infrastructure.csproj --output-dir "EntityFramework/Migrations"
-dotnet ef migrations remove -s Jobs.WebApi\Jobs.WebApi.csproj -p Jobs.Infrastructure\Jobs.Infrastructure.csproj
+# Excersise 1:
+
+Get the solution up and running in on your local docker environment
+Examine the solution
+Write a load test using k6 and examine the output
+
+Propose the easiest scaling solution 

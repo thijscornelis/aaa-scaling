@@ -49,9 +49,17 @@ public class Job : EntityBase<JobId>
 
     public async Task<double> Execute(CancellationToken cancellationToken)
     {
+        // ReSharper disable once CollectionNeverQueried.Local
+        var wastedMemory = new List<byte[]>();
         var random = new Random();
-        var seconds = random.Next(3, 30);
-        for (var i = 0; i < seconds; i++) await Task.Delay(1000, cancellationToken);
+        var seconds = random.Next(3, 10);
+        for (var i = 0; i < seconds; i++)
+        {
+            // EatMemory
+            byte[] buffer = new byte[262144];
+            wastedMemory.Add(buffer);
+            await Task.Delay(1000, cancellationToken);
+        }
         SetCompleted();
         return seconds;
     }
