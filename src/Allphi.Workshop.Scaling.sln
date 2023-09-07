@@ -19,7 +19,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00. Boot", "00. Boot", "{86
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "10. Application", "10. Application", "{40C80D25-62A4-4C7A-930C-E9ECE2BD949D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "90. Framework", "90. Framework", "{B16F00E1-78AA-4C48-84DC-5CCFFF12DAB6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "80. Framework", "80. Framework", "{B16F00E1-78AA-4C48-84DC-5CCFFF12DAB6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "90. Testing", "90. Testing", "{7831E546-080A-45D1-AE78-FBE9A208064B}"
+	ProjectSection(SolutionItems) = preProject
+		..\k6\launch-test.cmd = ..\k6\launch-test.cmd
+		..\k6\load-test.js = ..\k6\load-test.js
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -18,10 +18,11 @@ public static class UserEndpoints
         return builder;
     }
 
-    private static async Task<CreateUser.Result> Create([FromBody] CreateUserModel model,
+    private static async Task<IResult> Create([FromBody] CreateUserModel model,
         [FromServices] ICommandExecutor executor, CancellationToken cancellationToken)
     {
-        return await executor.ExecuteAsync(new CreateUser(UserId.New(), model.Firstname, model.Lastname),
+        var result = await executor.ExecuteAsync(new CreateUser(UserId.New(), model.Firstname, model.Lastname),
             cancellationToken);
+        return result.ToHttpResult();
     }
 }
