@@ -35,6 +35,15 @@ public static class DependencyInjectionExtensions
         return services;
     }
 
+    public static IServiceCollection AddModule<TModule>(this IServiceCollection serviceCollection)
+        where TModule : class, IModule
+    {
+        serviceCollection.AddTransient<TModule>();
+        serviceCollection.AddSingleton(serviceCollection);
+        serviceCollection.AddScoped(typeof(IFacade<>), typeof(Facade<>));
+        return serviceCollection;
+    }
+
 
     public static IServiceCollection WithCommandAndQueryResponsibilitySegregation(this IServiceCollection services,
         params Assembly[] assemblies)
