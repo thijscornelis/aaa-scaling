@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Foundation.Core.Abstractions;
+using Foundation.Core.TypedIdentifiers;
+using Module.Jobs.Domain.Events;
 using Module.Jobs.Domain.ValueObjects;
 using Shared.Contracts.Identifiers;
 
@@ -27,15 +29,17 @@ public class Job : EntityBase<JobId>
     public JobStatus Status { get; private set; }
 
     [MemberNotNull(nameof(Job.Status))]
-    public void SetCompleted()
+    public void SetCompleted(TimeSpan duration)
     {
         Status = JobStatus.Completed;
+        AddDomainEvent(new JobCompleted(DomainEventId.New(), Id, duration));
     }
 
     [MemberNotNull(nameof(Job.Status))]
     private void SetCreated()
     {
         Status = JobStatus.Created;
+        AddDomainEvent(new JobCreated(DomainEventId.New(), Id));
     }
 
     public async Task<double> Execute(CancellationToken cancellationToken)
@@ -51,7 +55,7 @@ public class Job : EntityBase<JobId>
             wastedMemory.Add(buffer);
             await Task.Delay(1000, cancellationToken);
         }
-        SetCompleted();
+        SetCompleted(TimeSpan.FromSeconds(seconds));
         return seconds;
     }
 }

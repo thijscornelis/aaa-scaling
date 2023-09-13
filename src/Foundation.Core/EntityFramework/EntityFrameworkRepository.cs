@@ -32,7 +32,7 @@ public class EntityFrameworkRepository<TEntity, TKey> : EntityFrameworkReadOnlyR
 
     /// <inheritdoc />
     public async Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken)
-    {
+    {   
         await Set.AddAsync(entity, cancellationToken);
         return entity;
     }

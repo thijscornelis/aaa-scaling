@@ -37,9 +37,9 @@ public record CreateJob(JobId JobId, UserId UserId) : Command<CreateJob.Result>
         }
 
         /// <inheritdoc />
-        public override async Task<Result> Handle(CreateJob request, CancellationToken cancellationToken)
+        public override async Task<Result> Handle(CreateJob command, CancellationToken cancellationToken)
         {
-            var job = new Job(request.JobId, request.UserId);
+            var job = new Job(command.JobId, command.UserId);
             await _jobRepository.AddAsync(job, cancellationToken);
             return new Result(job.Id, job.Status);
         }

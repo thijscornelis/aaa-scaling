@@ -15,8 +15,6 @@ public class QueryExecutor : IQueryExecutor
 
     /// <inheritdoc />
     public Task<TResponse> ExecuteAsync<TResponse>(Query<TResponse> query,
-        CancellationToken cancellationToken = default) where TResponse : ExecutionResult, new()
-    {
-        return _mediator.Send(query, cancellationToken);
-    }
+        CancellationToken cancellationToken = default) where TResponse : ExecutionResult, new() =>
+        _mediator.Send(query, cancellationToken);
 }

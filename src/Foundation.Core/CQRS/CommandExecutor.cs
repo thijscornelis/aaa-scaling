@@ -15,8 +15,6 @@ public class CommandExecutor : ICommandExecutor
 
     /// <inheritdoc />
     public Task<TResponse> ExecuteAsync<TResponse>(Command<TResponse> command,
-        CancellationToken cancellationToken = default) where TResponse : ExecutionResult, new()
-    {
-        return _mediator.Send(command, cancellationToken);
-    }
+        CancellationToken cancellationToken = default) where TResponse : ExecutionResult, new() =>
+        _mediator.Send(command, cancellationToken);
 }

@@ -1,5 +1,6 @@
 ﻿using Foundation.Core.Abstractions;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Foundation.Core.EntityFramework;
 
@@ -17,30 +18,37 @@ public class EntityFrameworkReadOnlyRepository<TEntity, TKey> : IReadOnlyReposit
     public EntityFrameworkReadOnlyRepository(DbContext context)
     {
         Context = context;
-        Set = context.Set<TEntity>();
+        Set = Context.Set<TEntity>();
     }
 
     /// <inheritdoc />
     public async Task<TEntity?> FindById(TKey id, CancellationToken cancellationToken)
     {
-        return await Set.Where(x => !x.IsDeleted).SingleOrDefaultAsync(x => x.Id.Equals(id), cancellationToken);
+        var entity = Set.Local.Where(x => !x.IsDeleted)
+            .SingleOrDefault(x => x.Id.Equals(id));
+
+        return entity ?? await Set.Where(x => !x.IsDeleted)
+            .SingleOrDefaultAsync(x => x.Id.Equals(id), cancellationToken);
     }
 
     /// <inheritdoc />
     public async Task<TEntity> GetById(TKey id, CancellationToken cancellationToken)
     {
-        return await Set.Where(x => !x.IsDeleted).SingleAsync(x => x.Id.Equals(id), cancellationToken);
+        var entity = Set.Local.Where(x => !x.IsDeleted)
+            .SingleOrDefault(x => x.Id.Equals(id));
+
+        return entity ?? await Set.Where(x => !x.IsDeleted).SingleAsync(x => x.Id.Equals(id), cancellationToken);
     }
 
     /// <inheritdoc />
-    public IQueryable<TEntity> GetQueryable()
+    public IQueryable<TEntity> GetQueryable(Expression<Func<TEntity, bool>> predicate)
     {
-        return Set.Where(x => !x.IsDeleted);
+        return GetQueryableIncludingDeleted(predicate).Where(x => !x.IsDeleted);
     }
 
     /// <inheritdoc />
-    public IQueryable<TEntity> GetQueryableIncludingDeleted()
+    public IQueryable<TEntity> GetQueryableIncludingDeleted(Expression<Func<TEntity, bool>> predicate)
     {
-        return Set;
+        return Set.Where(predicate).AsQueryable();
     }
 }

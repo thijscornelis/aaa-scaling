@@ -12,10 +12,10 @@ public static class JobEndpoints
 {
     public static IEndpointRouteBuilder MapJobEndpoints(this IEndpointRouteBuilder builder)
     {
-        builder.MapPost("jobs/create-and-execute", CreateAndExecute)
+        builder.MapPost("jobs", Create)
             .WithOpenApi()
-            .WithDisplayName("CreateAndExecute")
-            .WithDescription("Create an execute a job")
+            .WithDisplayName("Create")
+            .WithDescription("Create a job")
             .WithTags("Jobs");
 
         builder.MapGet("jobs/{id}", GetById)
@@ -35,14 +35,11 @@ public static class JobEndpoints
         return result.ToHttpResult();
     }
 
-    private static async Task<IResult> CreateAndExecute([FromBody] CreateJobModel model,
+    private static async Task<IResult> Create([FromBody] CreateJobModel model,
         [FromServices] IFacade<JobsModule> executor,
         CancellationToken cancellationToken)
     {
         var createResult = await executor.ExecuteAsync(new CreateJob(JobId.New(), model.UserId), cancellationToken);
-        if (createResult.HasFailed) createResult.ToHttpResult();
-
-        var executeResult = await executor.ExecuteAsync(new ExecuteJob(createResult.JobId), cancellationToken);
-        return executeResult.ToHttpResult();
+        return createResult.ToHttpResult();
     }
 }

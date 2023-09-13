@@ -32,9 +32,9 @@ public record CreateUser(UserId UserId, string Firstname, string Lastname) : Com
             _repository = repository;
         }
 
-        public override async Task<Result> Handle(CreateUser request, CancellationToken cancellationToken)
+        public override async Task<Result> Handle(CreateUser command, CancellationToken cancellationToken)
         {
-            var user = new User(request.UserId, request.Firstname, request.Lastname);
+            var user = new User(command.UserId, command.Firstname, command.Lastname);
             await _repository.AddAsync(user, cancellationToken);
             return new Result(user.Id);
         }

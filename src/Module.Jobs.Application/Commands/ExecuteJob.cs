@@ -38,10 +38,11 @@ public record ExecuteJob(JobId JobId) : Command<ExecuteJob.Result>
         }
 
         /// <inheritdoc />
-        public override async Task<Result> Handle(ExecuteJob request, CancellationToken cancellationToken)
+        public override async Task<Result> Handle(ExecuteJob command, CancellationToken cancellationToken)
         {
-            var job = await _jobRepository.GetById(request.JobId, cancellationToken);
+            var job = await _jobRepository.GetById(command.JobId, cancellationToken);
             var seconds = await job.Execute(cancellationToken);
+            var find = _jobRepository.GetQueryable(x => x.Id.Equals(job.Id));
             return new Result(job.Id, job.Status, TimeSpan.FromSeconds(seconds));
         }
     }

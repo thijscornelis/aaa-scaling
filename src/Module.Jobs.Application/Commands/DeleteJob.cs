@@ -19,9 +19,9 @@ public record DeleteJob(JobId Id) : Command<DeleteJob.Result>
         }
 
         /// <inheritdoc />
-        public override async Task<Result> Handle(DeleteJob request, CancellationToken cancellationToken)
+        public override async Task<Result> Handle(DeleteJob command, CancellationToken cancellationToken)
         {
-            var job = await _repository.GetById(request.Id, cancellationToken);
+            var job = await _repository.GetById(command.Id, cancellationToken);
             await _repository.DeleteAsync(job, cancellationToken);
             return new Result();
         }

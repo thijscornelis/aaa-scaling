@@ -19,15 +19,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "90. Testing", "90. Testing"
 		..\k6\load-test.js = ..\k6\load-test.js
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scaling.API", "Scaling.API\Scaling.API.csproj", "{FB88E2F1-6EEF-4941-BDAE-7C3A25AD3031}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scaling.API", "Scaling.API\Scaling.API.csproj", "{FB88E2F1-6EEF-4941-BDAE-7C3A25AD3031}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "10. Users", "10. Users", "{0377D2A2-B5FC-4C7A-9B71-87AAB992A7AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Users.Application", "Module.Users.Application\Module.Users.Application.csproj", "{D3EA74FC-B0E5-4047-8C99-EA0562C2A21D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Users.Application", "Module.Users.Application\Module.Users.Application.csproj", "{D3EA74FC-B0E5-4047-8C99-EA0562C2A21D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Users.Domain", "Module.Users.Domain\Module.Users.Domain.csproj", "{2F6236FD-07E1-4B38-BA4F-80F7C6E84B9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Users.Domain", "Module.Users.Domain\Module.Users.Domain.csproj", "{2F6236FD-07E1-4B38-BA4F-80F7C6E84B9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Users.Infrastructure", "Module.Users.Infrastructure\Module.Users.Infrastructure.csproj", "{1CC1A63D-742D-4AEC-B7B2-1BC2814C3FAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Users.Infrastructure", "Module.Users.Infrastructure\Module.Users.Infrastructure.csproj", "{1CC1A63D-742D-4AEC-B7B2-1BC2814C3FAF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Jobs.Application", "Module.Jobs.Application\Module.Jobs.Application.csproj", "{ADE6972A-2A3C-4B7F-87FF-4F7F6991CEF6}"
 EndProject
@@ -37,7 +37,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Jobs.Infrastructure"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "70. Shared", "70. Shared", "{7C6EFF5F-0057-4D11-B698-20CBC99D1D96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Contracts", "Shared.Contracts\Shared.Contracts.csproj", "{A6A3B5E6-C0BE-463C-A0C9-220A0263862B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Contracts", "Shared.Contracts\Shared.Contracts.csproj", "{A6A3B5E6-C0BE-463C-A0C9-220A0263862B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scaling.Console", "Scaling.Console\Scaling.Console.csproj", "{7FA548AE-95D8-458F-857A-8A42D221C68C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,6 +87,10 @@ Global
 		{A6A3B5E6-C0BE-463C-A0C9-220A0263862B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6A3B5E6-C0BE-463C-A0C9-220A0263862B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6A3B5E6-C0BE-463C-A0C9-220A0263862B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FA548AE-95D8-458F-857A-8A42D221C68C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FA548AE-95D8-458F-857A-8A42D221C68C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FA548AE-95D8-458F-857A-8A42D221C68C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FA548AE-95D8-458F-857A-8A42D221C68C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -100,6 +106,7 @@ Global
 		{59FCAFE0-6673-41BB-8E13-81191812FE42} = {40C80D25-62A4-4C7A-930C-E9ECE2BD949D}
 		{9D377CC5-18B6-4626-9D54-13B97F0B3404} = {40C80D25-62A4-4C7A-930C-E9ECE2BD949D}
 		{A6A3B5E6-C0BE-463C-A0C9-220A0263862B} = {7C6EFF5F-0057-4D11-B698-20CBC99D1D96}
+		{7FA548AE-95D8-458F-857A-8A42D221C68C} = {86605D1D-F588-492F-A56E-E26365F801DF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B74CD364-3A28-4393-846B-B9258174E6C3}

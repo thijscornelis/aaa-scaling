@@ -50,6 +50,7 @@ public static class DependencyInjectionExtensions
     {
         services.AddTransient<ICommandExecutor, CommandExecutor>();
         services.AddTransient<IQueryExecutor, QueryExecutor>();
+        services.AddTransient<IDomainEventExecutor, DomainEventExecutor>();
         return services.AddMediatR(x =>
         {
             x.RegisterServicesFromAssemblies(assemblies);
@@ -57,6 +58,7 @@ public static class DependencyInjectionExtensions
             x.AddOpenBehavior(typeof(StopwatchPipelineBehaviour<,>));
             x.AddOpenBehavior(typeof(ExceptionHandlingPipelineBehaviour<,>));
             x.AddOpenBehavior(typeof(UnitOfWorkPipelineBehaviour<,>));
+            x.AddOpenBehavior(typeof(PublishDomainEventsPipelineBehaviour<,>));
         });
     }
 }

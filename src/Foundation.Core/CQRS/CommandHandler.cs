@@ -8,5 +8,5 @@ public abstract class CommandHandler<TCommand, TCommandResult> : IRequestHandler
     where TCommandResult : ExecutionResult, new()
 {
     /// <inheritdoc />
-    public abstract Task<TCommandResult> Handle(TCommand request, CancellationToken cancellationToken);
+    public abstract Task<TCommandResult> Handle(TCommand command, CancellationToken cancellationToken);
 }

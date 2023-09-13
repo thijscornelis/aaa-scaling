@@ -3,6 +3,7 @@ using Foundation.Core.DependencyInjection;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore;
 using Module.Jobs.Application;
+using Module.Jobs.Application.Hubs;
 using Module.Jobs.Infrastructure.EntityFramework;
 using Module.Users.Application;
 using Module.Users.Infrastructure.EntityFramework;
@@ -16,6 +17,8 @@ namespace Scaling.API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddSignalR();
 
             builder.Services
                 .AddEndpointsApiExplorer()
@@ -41,7 +44,7 @@ namespace Scaling.API
             app.UseHttpsRedirection();
             app.MapJobEndpoints();
             app.MapUserEndpoints();
-
+            app.MapHub<JobNotificationHub>("signalr/jobs");
             app.Run();
         }
     }
