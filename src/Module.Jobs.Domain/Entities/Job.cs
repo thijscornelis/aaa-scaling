@@ -32,14 +32,14 @@ public class Job : EntityBase<JobId>
     public void SetCompleted(TimeSpan duration)
     {
         Status = JobStatus.Completed;
-        AddDomainEvent(new JobCompleted(DomainEventId.New(), Id, duration));
+        AddDomainEvent(new JobCompleted { DomainEventId = DomainEventId.New(), JobId = Id, TimeSpan = duration });
     }
 
     [MemberNotNull(nameof(Job.Status))]
     private void SetCreated()
     {
         Status = JobStatus.Created;
-        AddDomainEvent(new JobCreated(DomainEventId.New(), Id));
+        AddDomainEvent(new JobCreated { DomainEventId = DomainEventId.New(), JobId = Id });
     }
 
     public async Task<double> Execute(CancellationToken cancellationToken)

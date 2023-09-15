@@ -23,15 +23,13 @@ internal class PublishDomainEventsPipelineBehaviour<TRequest, TResponse> : IPipe
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         var result = await next();
-        
         var events = GetDomainEvents();
-        do
+        while (events.Any())
         {
-            var tasks = events.Select(@event => _domainEventExecutor.ExecuteAsync(@event, cancellationToken));
-            await Task.WhenAll(tasks);
+            _logger.LogTrace("Publishing {0} domain events", events.Length);
+            await _domainEventExecutor.ExecuteAsync(cancellationToken, events);
             events = GetDomainEvents();
-        } while (events.Any());
-
+        } 
         return result;
     }
 

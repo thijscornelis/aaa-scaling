@@ -5,6 +5,7 @@ using Foundation.Core.CQRS.Design;
 using Foundation.Core.EntityFramework;
 using Foundation.Core.Mediator;
 using Foundation.Core.TypedIdentifiers;
+using MediatR.NotificationPublishers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
@@ -54,6 +55,7 @@ public static class DependencyInjectionExtensions
         return services.AddMediatR(x =>
         {
             x.RegisterServicesFromAssemblies(assemblies);
+            x.NotificationPublisherType = typeof(TaskWhenAllPublisher);
             x.AddOpenBehavior(typeof(LoggingPipelineBehaviour<,>));
             x.AddOpenBehavior(typeof(StopwatchPipelineBehaviour<,>));
             x.AddOpenBehavior(typeof(ExceptionHandlingPipelineBehaviour<,>));

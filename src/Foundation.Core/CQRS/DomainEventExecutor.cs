@@ -14,5 +14,9 @@ public class DomainEventExecutor : IDomainEventExecutor
     }
 
     /// <inheritdoc />
-    public Task ExecuteAsync(IDomainEvent query, CancellationToken cancellationToken = default) => _mediator.Publish(query, cancellationToken);
+    public Task ExecuteAsync(CancellationToken cancellationToken = default, params IDomainEvent[] events)
+    {
+        var tasks = events.Select(x => _mediator.Publish(x, cancellationToken));
+        return Task.WhenAll(tasks);
+    }
 }

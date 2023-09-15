@@ -1,14 +1,17 @@
 
 using Foundation.Core.DependencyInjection;
+using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore;
 using Module.Jobs.Application;
 using Module.Jobs.Application.Hubs;
+using Module.Jobs.Domain.Events;
 using Module.Jobs.Infrastructure.EntityFramework;
 using Module.Users.Application;
 using Module.Users.Infrastructure.EntityFramework;
 using Scaling.API.Endpoints;
 using Shared.Contracts.Identifiers;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Scaling.API
 {
@@ -30,7 +33,8 @@ namespace Scaling.API
                     x.MapTypedIdentifier<UserId>();
                 })
                 .AddModule<UsersModule>()
-                .AddModule<JobsModule>();
+                .AddModule<JobsModule>()
+                .AddHostedService<HostedSignalRListener>();
                 
 
             var app = builder.Build();
@@ -75,4 +79,36 @@ namespace Scaling.API
         }
     }
 
+
+    public class HostedSignalRListener : IHostedService
+    {
+        private HubConnection? _connection;
+        public Task StartAsync(CancellationToken cancellationToken)
+        {
+            _connection = new HubConnectionBuilder()
+                .WithUrl("https://localhost:7086/signalr/jobs")
+                .WithAutomaticReconnect()
+                .Build();
+
+            _connection.On(nameof(IJobNotificationHub.OnJobCreated), (JobCreated @event) =>
+            {
+                System.Console.WriteLine($"Job with {@event.JobId} was created");
+                return Task.CompletedTask;
+            });
+            _connection.On(nameof(IJobNotificationHub.OnJobCompleted), (JobCompleted @event) =>
+            {
+                System.Console.WriteLine($"Job with {@event.JobId} was completed after {@event.TimeSpan}");
+                return Task.CompletedTask;
+            });
+            return _connection.StartAsync(cancellationToken);
+        }
+
+        public async Task StopAsync(CancellationToken cancellationToken)
+        {
+            if (_connection != null)
+            {
+                await _connection.StopAsync(cancellationToken);
+            }
+        }
+    }
 }

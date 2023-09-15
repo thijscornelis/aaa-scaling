@@ -4,5 +4,5 @@ namespace Foundation.Core.CQRS.Design;
 
 public interface IDomainEventExecutor
 {
-    Task ExecuteAsync(IDomainEvent query, CancellationToken cancellationToken = default);
+    Task ExecuteAsync(CancellationToken cancellationToken = default, params IDomainEvent[] events);
 }
