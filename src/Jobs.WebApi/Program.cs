@@ -18,7 +18,7 @@ builder.Services
         x.MapTypedIdentifier<JobId>();
         x.MapTypedIdentifier<UserId>();
     })
-    .WithCommandAndQueryResponsibilitySegregation(typeof(CreateJob).Assembly)
+    .WithCommandAndQueryResponsibilitySegregation(typeof(CreateAndExecuteJob).Assembly)
     .AddTransient<IJobRepository, JobRepository>()
     .AddTransient<IUserRepository, UserRepository>()
     .WithEntityFramework(x =>

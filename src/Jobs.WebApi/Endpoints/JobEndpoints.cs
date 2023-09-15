@@ -38,10 +38,7 @@ public static class JobEndpoints
         [FromServices] ICommandExecutor executor,
         CancellationToken cancellationToken)
     {
-        var createResult = await executor.ExecuteAsync(new CreateJob(JobId.New(), model.UserId), cancellationToken);
-        if (createResult.HasFailed) createResult.ToHttpResult();
-
-        var executeResult = await executor.ExecuteAsync(new ExecuteJob(createResult.JobId), cancellationToken);
-        return executeResult.ToHttpResult();
+        var result = await executor.ExecuteAsync(new CreateAndExecuteJob(JobId.New(), model.UserId), cancellationToken);
+        return result.ToHttpResult();
     }
 }
